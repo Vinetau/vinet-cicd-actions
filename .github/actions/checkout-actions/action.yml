@@ -1,0 +1,35 @@
+name: Checkout with Custom CI/CD Actions
+description: Checkout the repository code for the workflow and the specified custom CI/CD actions
+
+inputs:
+  cicd_repo:
+    description: 'Repository of the CI/CD actions to use'
+  cicd_branch:
+    description: 'Branch of the CI/CD actions to use'
+    default: 'main'
+    required: false
+
+runs:
+  using: "composite"
+  
+  steps:
+    # Check out the actual repository code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
+    
+    # Check out the custom CI/CD actions
+    - name: Checkout CI/CD Actions
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.cicd_repo }}
+        ref: ${{ inputs.cicd_branch }}
+        path: ./cicd-repo
+
+    # Move the custom CI/CD actions to the actions directory so they can be referenced with relative paths
+    - name: Move Actions
+      shell: pwsh
+      run: |
+        mkdir ./actions
+        mv ./cicd-repo/actions/* ./actions/
