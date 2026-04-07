@@ -6,7 +6,7 @@ inputs:
     description: 'Name of the branch or tag to checkout (e.g.: github.ref_name)'
     required: true
   custom_actions_repo:
-    description: 'Repository of the CI/CD actions to use'
+    description: 'Repository of the CI/CD actions to use. Requires GH_TOKEN to be set as a job-level env var for private repositories.'
     default: ''
     required: false
   custom_actions_ref_name:
@@ -36,7 +36,8 @@ runs:
         repository: ${{ inputs.custom_actions_repo }}
         ref: ${{ inputs.custom_actions_ref_name }}
         path: ./${{ inputs.custom_actions_temp_path }}
-
+        token: ${{ env.GH_TOKEN }}
+    
     # Move the custom CI/CD actions to the actions directory so they can be referenced with relative paths
     - name: Move Actions
       shell: bash
