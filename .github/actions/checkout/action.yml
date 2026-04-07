@@ -1,4 +1,4 @@
-name: Checkout Repo
+name: Checkout
 description: Checkout the repository code for the workflow and optional custom CI/CD actions
 
 inputs:
