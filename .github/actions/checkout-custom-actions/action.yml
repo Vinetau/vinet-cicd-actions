@@ -7,9 +7,6 @@ inputs:
   actions_ref:
     description: 'Branch or tag of the CI/CD actions to use'
     default: 'main'
-  actions_path:
-    description: 'Temp path to checkout the custom CI/CD actions to, before moving them to the actions directory for the current workflow'
-    default: 'cicd-repo'
 
 runs:
   using: "composite"
@@ -20,7 +17,7 @@ runs:
       with:
         repository: ${{ inputs.actions_repository }}
         ref: ${{ inputs.actions_ref }}
-        path: ./${{ inputs.actions_path }}
+        path: ./custom-actions
         token: ${{ env.GH_TOKEN }}
     
     # Move the custom CI/CD actions to the actions directory so they can be referenced with relative paths
@@ -28,4 +25,4 @@ runs:
       shell: bash
       run: |
         mkdir -p ./actions
-        mv ./${{ inputs.actions_path }}/actions/* ./actions/
+        mv ./custom-actions/actions/* ./actions/
