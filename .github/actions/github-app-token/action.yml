@@ -1,0 +1,25 @@
+name: Get GitHub App Token
+description: Generates a short-lived GitHub App installation token and sets it as GH_TOKEN
+
+inputs:
+  client_id:
+    description: 'GitHub App Client ID'
+    required: true
+  private_key:
+    description: 'GitHub App private key'
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Generate Token
+      id: generate
+      uses: actions/create-github-app-token@v3
+      with:
+        client-id: ${{ inputs.client_id }}
+        private-key: ${{ inputs.private_key }}
+
+    - name: Export Token
+      shell: pwsh
+      run: echo "GH_TOKEN=${{ steps.generate.outputs.token }}" >> $env:GITHUB_ENV
