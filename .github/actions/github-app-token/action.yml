@@ -19,6 +19,8 @@ runs:
       with:
         client-id: ${{ inputs.client_id }}
         private-key: ${{ inputs.private_key }}
+        owner: ${{ github.repository_owner }}
+
 
     - name: Export Token
       shell: pwsh
