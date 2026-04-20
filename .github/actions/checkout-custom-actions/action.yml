@@ -13,7 +13,7 @@ runs:
   
   steps:
     - name: Checkout Custom Actions
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: ${{ inputs.actions_repository }}
         ref: ${{ inputs.actions_ref }}
